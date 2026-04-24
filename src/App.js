@@ -1,22 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <MyButton />
-        </p>
-      </header>
-    </div>
-  );
-}
+  const [message, setMessage] = useState('');
 
-function MyButton() {
+  useEffect(() => {
+    fetch('http://localhost:3001/api/group')
+      .then(res => res.json())
+      .then(data => setMessage(data.text))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
-    <button>I'm a button</button>
+    <div>
+      <h1>{message}</h1>
+    </div>
   );
 }
 
