@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import GroupViewModel from '../models/groupViewModel';
 import '../styles/GroupList.css';
 
-function GroupList() {
+function GroupList({ onLogout }) {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -108,6 +108,15 @@ function GroupList() {
 
   return (
     <div className="App">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <h2>Groepen</h2>
+        {onLogout && (
+          <button type="button" onClick={onLogout}>
+            Uitloggen
+          </button>
+        )}
+      </div>
+
       <div style={{ marginBottom: 12 }}>
         <button type="button" onClick={() => setShowAddModal(true)}>
           Groep toevoegen

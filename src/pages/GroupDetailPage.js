@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/GroupDetailPage.css';
 
-function GroupDetailPage() {
+function GroupDetailPage({ onLogout }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
@@ -73,8 +73,15 @@ function GroupDetailPage() {
 
   return (
     <div className="detail-page">
-      <button onClick={() => navigate('/')} className="back-button">← Terug</button>
-      
+      <div className="detail-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <button onClick={() => navigate('/groups')} className="back-button">← Terug</button>
+        {onLogout && (
+          <button onClick={onLogout} className="logout-button">
+            Uitloggen
+          </button>
+        )}
+      </div>
+
       <div className="group-header">
         <div className="question-mark-icon">?</div>
         <div className="header-info">
