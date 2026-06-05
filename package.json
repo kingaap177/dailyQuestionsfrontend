@@ -45,11 +45,12 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
     "eslint": "^8.56.0",
     "gh-pages": "^6.3.0",
     "jest": "^27.5.1",
     "prettier": "^3.2.5",
-    "@playwright/test": "^1.40.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "yaml": "^2.9.0"
   }
 }
