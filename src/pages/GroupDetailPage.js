@@ -75,11 +75,6 @@ function GroupDetailPage({ onLogout }) {
     <div className="detail-page">
       <div className="detail-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/groups')} className="back-button">← Terug</button>
-        {onLogout && (
-          <button onClick={onLogout} className="logout-button">
-            Uitloggen
-          </button>
-        )}
       </div>
 
       <div className="group-header">
