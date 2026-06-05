@@ -7,6 +7,10 @@ function App() {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [posting, setPosting] = useState(false);
+  const [postError, setPostError] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
@@ -60,6 +64,9 @@ function App() {
 
   return (
     <div className="App">
+      <div style={{ marginBottom: 12 }}>
+        <button type="button" onClick={() => setShowAddModal(true)}>Add Group</button>
+      </div>
       {groups.length === 0 ? (
         <p>No groups available.</p>
       ) : (
@@ -83,6 +90,73 @@ function App() {
             </div>
           )}
         </>
+      )}
+
+      {showAddModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Add a new group</h3>
+            <input
+              type="text"
+              value={newGroupName}
+              onChange={e => setNewGroupName(e.target.value)}
+              placeholder="Group name"
+            />
+            {postError && <p className="error">{postError}</p>}
+            <div className="modal-actions">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAddModal(false);
+                  setNewGroupName('');
+                  setPostError(null);
+                }}
+                disabled={posting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!newGroupName.trim()) {
+                    setPostError('Please enter a group name');
+                    return;
+                  }
+                  setPosting(true);
+                  setPostError(null);
+                  try {
+                    const res = await fetch(`${apiUrl}/api/group`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ name: newGroupName.trim() }),
+                    });
+
+                    if (!res.ok) {
+                      const err = await res.json().catch(() => ({}));
+                      throw new Error(err.error || `HTTP ${res.status}`);
+                    }
+
+                    const created = await res.json();
+                    const name = created?.groupname ?? created?.name ?? newGroupName.trim();
+                    const id = created?.idgroups ?? created?.id ?? null;
+                    const vm = new GroupViewModel(name, id);
+                    setGroups(prev => [...prev, vm]);
+                    setShowAddModal(false);
+                    setNewGroupName('');
+                  } catch (err) {
+                    console.error(err);
+                    setPostError(err.message || 'Failed to create group');
+                  } finally {
+                    setPosting(false);
+                  }
+                }}
+                disabled={posting}
+              >
+                {posting ? 'Adding...' : 'Add'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
