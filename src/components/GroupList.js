@@ -34,7 +34,7 @@ function GroupList() {
 
         const viewModels = list.map(item => {
           const name = item?.groupname ?? item?.name ?? item;
-          const id = item?.idgroups ?? item?.id ?? null;
+          const id = item?.id ?? item?.idgroups ?? item?.groupid ?? item?.groupId ?? null;
           return new GroupViewModel(name, id);
         });
 
@@ -48,7 +48,11 @@ function GroupList() {
   }, [apiUrl]);
 
   const handleGroupClick = (group) => {
-    const groupId = group.id || group.name;
+    const groupId = group.id;
+    if (!groupId) {
+      console.error('Cannot open group detail page because group has no id', group);
+      return;
+    }
     navigate(`/group/${groupId}`);
   };
 

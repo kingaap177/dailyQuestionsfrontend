@@ -55,6 +55,7 @@ function GroupDetailPage() {
       <div className="detail-page">
         <button onClick={() => navigate('/')} className="back-button">← Terug</button>
         <p className="error">Fout: {error}</p>
+        <p className="error">Opgezocht: {`${apiUrl}/api/group/${id}`}</p>
       </div>
     );
   }
