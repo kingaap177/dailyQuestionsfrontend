@@ -9,7 +9,7 @@ function LoginPage({ onLogin }) {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setError(null);
     setLoading(true);
@@ -52,7 +52,7 @@ function LoginPage({ onLogin }) {
             id="username"
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
             autoComplete="username"
             required
           />
@@ -63,7 +63,7 @@ function LoginPage({ onLogin }) {
             id="password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             autoComplete="current-password"
             required
           />

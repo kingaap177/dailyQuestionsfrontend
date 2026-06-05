@@ -17,19 +17,18 @@ function GroupDetailPage({ onLogout }) {
       try {
         setLoading(true);
         const res = await fetch(`${apiUrl}/api/group/${id}`);
-        
+
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
-        
+
         const data = await res.json();
         setGroup(data);
-        
+
         // TODO: Voeg berichten/messages op door een API-call
         // const messagesRes = await fetch(`${apiUrl}/api/group/${id}/messages`);
         // const messagesData = await messagesRes.json();
         // setMessages(messagesData);
-        
       } catch (err) {
         console.error(err);
         setError(err.message || 'Fout bij ophalen van groepdetails');
@@ -44,7 +43,9 @@ function GroupDetailPage({ onLogout }) {
   if (loading) {
     return (
       <div className="detail-page">
-        <button onClick={() => navigate('/')} className="back-button">← Terug</button>
+        <button onClick={() => navigate('/')} className="back-button">
+          ← Terug
+        </button>
         <p>Laden...</p>
       </div>
     );
@@ -53,7 +54,9 @@ function GroupDetailPage({ onLogout }) {
   if (error) {
     return (
       <div className="detail-page">
-        <button onClick={() => navigate('/')} className="back-button">← Terug</button>
+        <button onClick={() => navigate('/')} className="back-button">
+          ← Terug
+        </button>
         <p className="error">Fout: {error}</p>
         <p className="error">Opgezocht: {`${apiUrl}/api/group/${id}`}</p>
       </div>
@@ -63,7 +66,9 @@ function GroupDetailPage({ onLogout }) {
   if (!group) {
     return (
       <div className="detail-page">
-        <button onClick={() => navigate('/')} className="back-button">← Terug</button>
+        <button onClick={() => navigate('/')} className="back-button">
+          ← Terug
+        </button>
         <p>Groep niet gevonden</p>
       </div>
     );
@@ -73,8 +78,13 @@ function GroupDetailPage({ onLogout }) {
 
   return (
     <div className="detail-page">
-      <div className="detail-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={() => navigate('/groups')} className="back-button">← Terug</button>
+      <div
+        className="detail-header"
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        <button onClick={() => navigate('/groups')} className="back-button">
+          ← Terug
+        </button>
       </div>
 
       <div className="group-header">

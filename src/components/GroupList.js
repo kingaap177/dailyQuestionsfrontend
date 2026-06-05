@@ -26,11 +26,7 @@ function GroupList({ onLogout }) {
         return res.json();
       })
       .then(data => {
-        const list = Array.isArray(data)
-          ? data
-          : Array.isArray(data.groups)
-            ? data.groups
-            : [];
+        const list = Array.isArray(data) ? data : Array.isArray(data.groups) ? data.groups : [];
 
         const viewModels = list.map(item => {
           const name = item?.groupname ?? item?.name ?? item;
@@ -47,7 +43,7 @@ function GroupList({ onLogout }) {
       .finally(() => setLoading(false));
   }, [apiUrl]);
 
-  const handleGroupClick = (group) => {
+  const handleGroupClick = group => {
     const groupId = group.id;
     if (!groupId) {
       console.error('Cannot open group detail page because group has no id', group);
@@ -108,7 +104,14 @@ function GroupList({ onLogout }) {
 
   return (
     <div className="App">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 12,
+        }}
+      >
         <h2>Groepen</h2>
         {onLogout && (
           <button type="button" onClick={onLogout}>
@@ -162,11 +165,7 @@ function GroupList({ onLogout }) {
               >
                 Annuleren
               </button>
-              <button
-                type="button"
-                onClick={handleAddGroup}
-                disabled={posting}
-              >
+              <button type="button" onClick={handleAddGroup} disabled={posting}>
                 {posting ? 'Bezig...' : 'Toevoegen'}
               </button>
             </div>

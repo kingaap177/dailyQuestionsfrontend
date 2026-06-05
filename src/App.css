@@ -44,7 +44,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,10 +56,10 @@
   padding: 20px;
   border-radius: 6px;
   min-width: 280px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
-.modal input[type="text"] {
+.modal input[type='text'] {
   width: 100%;
   padding: 8px;
   margin: 8px 0;

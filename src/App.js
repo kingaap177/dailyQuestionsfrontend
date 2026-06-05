@@ -18,7 +18,7 @@ function App() {
     return stored ? JSON.parse(stored) : null;
   });
 
-  const handleLogin = (userData) => {
+  const handleLogin = userData => {
     localStorage.setItem('authUser', JSON.stringify(userData));
     setUser(userData);
   };
