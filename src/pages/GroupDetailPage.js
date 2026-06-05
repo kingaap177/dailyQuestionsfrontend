@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/GroupDetailPage.css';
 
-function GroupDetailPage({ onLogout }) {
+function GroupDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [messages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
