@@ -18,7 +18,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/",
+    "quality": "npm run lint && npm run format:check && npm run test:coverage"
   },
   "eslintConfig": {
     "extends": [
@@ -39,7 +45,9 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^8.56.0",
     "gh-pages": "^6.3.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "prettier": "^3.2.5"
   }
 }
