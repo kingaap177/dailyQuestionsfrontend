@@ -6,9 +6,14 @@ function GroupDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
+  const [editName, setEditName] = useState('');
   const [messages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [saveError, setSaveError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
@@ -16,6 +21,7 @@ function GroupDetailPage() {
     const fetchGroupDetails = async () => {
       try {
         setLoading(true);
+        setError(null);
         const res = await fetch(`${apiUrl}/api/group/${id}`);
 
         if (!res.ok) {
@@ -24,11 +30,7 @@ function GroupDetailPage() {
 
         const data = await res.json();
         setGroup(data);
-
-        // TODO: Voeg berichten/messages op door een API-call
-        // const messagesRes = await fetch(`${apiUrl}/api/group/${id}/messages`);
-        // const messagesData = await messagesRes.json();
-        // setMessages(messagesData);
+        setEditName(data?.name || data?.groupname || '');
       } catch (err) {
         console.error(err);
         setError(err.message || 'Fout bij ophalen van groepdetails');
@@ -39,6 +41,64 @@ function GroupDetailPage() {
 
     fetchGroupDetails();
   }, [id, apiUrl]);
+
+  const handleUpdateGroup = async () => {
+    if (!editName.trim()) {
+      setSaveError('Groepsnaam mag niet leeg zijn');
+      return;
+    }
+
+    setSaving(true);
+    setSaveError(null);
+
+    try {
+      const res = await fetch(`${apiUrl}/api/group/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editName.trim() }),
+      });
+
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        throw new Error(errorBody.error || `HTTP ${res.status}`);
+      }
+
+      const updatedGroup = await res.json();
+      setGroup(updatedGroup);
+    } catch (err) {
+      console.error(err);
+      setSaveError(err.message || 'Fout bij bijwerken van groep');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteGroup = async () => {
+    if (!window.confirm('Weet je zeker dat je deze groep wilt verwijderen?')) {
+      return;
+    }
+
+    setDeleting(true);
+    setDeleteError(null);
+
+    try {
+      const res = await fetch(`${apiUrl}/api/group/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok && res.status !== 204) {
+        const errorBody = await res.json().catch(() => ({}));
+        throw new Error(errorBody.error || `HTTP ${res.status}`);
+      }
+
+      navigate('/groups');
+    } catch (err) {
+      console.error(err);
+      setDeleteError(err.message || 'Fout bij verwijderen van groep');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -90,9 +150,29 @@ function GroupDetailPage() {
       <div className="group-header">
         <div className="question-mark-icon">?</div>
         <div className="header-info">
-          <h1>{groupName}</h1>
+          <div className="group-name-field">
+            <label htmlFor="groupName">Groepsnaam</label>
+            <input
+              id="groupName"
+              type="text"
+              value={editName}
+              onChange={e => setEditName(e.target.value)}
+              className="group-name-input"
+            />
+          </div>
           <p className="question">[vraag hier]</p>
         </div>
+      </div>
+
+      <div className="group-actions">
+        {saveError && <p className="error">{saveError}</p>}
+        {deleteError && <p className="error">{deleteError}</p>}
+        <button type="button" className="save-button" onClick={handleUpdateGroup} disabled={saving || deleting}>
+          {saving ? 'Opslaan...' : 'Opslaan'}
+        </button>
+        <button type="button" className="delete-button" onClick={handleDeleteGroup} disabled={saving || deleting}>
+          {deleting ? 'Verwijderen...' : 'Verwijderen'}
+        </button>
       </div>
 
       <div className="messages-container">
