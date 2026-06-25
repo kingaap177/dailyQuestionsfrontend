@@ -167,10 +167,20 @@ function GroupDetailPage() {
       <div className="group-actions">
         {saveError && <p className="error">{saveError}</p>}
         {deleteError && <p className="error">{deleteError}</p>}
-        <button type="button" className="save-button" onClick={handleUpdateGroup} disabled={saving || deleting}>
+        <button
+          type="button"
+          className="save-button"
+          onClick={handleUpdateGroup}
+          disabled={saving || deleting}
+        >
           {saving ? 'Opslaan...' : 'Opslaan'}
         </button>
-        <button type="button" className="delete-button" onClick={handleDeleteGroup} disabled={saving || deleting}>
+        <button
+          type="button"
+          className="delete-button"
+          onClick={handleDeleteGroup}
+          disabled={saving || deleting}
+        >
           {deleting ? 'Verwijderen...' : 'Verwijderen'}
         </button>
       </div>
