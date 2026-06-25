@@ -134,8 +134,6 @@ function GroupDetailPage() {
     );
   }
 
-  const groupName = group?.groupname || group?.name || 'Naamloze groep';
-
   return (
     <div className="detail-page">
       <div
